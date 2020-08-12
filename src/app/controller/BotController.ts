@@ -25,9 +25,7 @@ class BotController {
                 const ibm = await new IBMcontroller();
                 const resultsString: any = await ibm.recognizeVoice(options);
                 await fs.unlinkSync(filePath);
-                console.log(resultsString.results[0].alternatives);
-
-                return resultsString.results[0].alternatives[0].transcript;
+                return resultsString
 
             } catch (error) {
                 return error;

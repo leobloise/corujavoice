@@ -1,5 +1,6 @@
-import TelegramBot, { Message, SendMessageOptions } from "node-telegram-bot-api";
+import TelegramBot, { Message, SendMessageOptions, Metadata } from "node-telegram-bot-api";
 import BotController from '../controller/BotController';
+import fs  from "fs";
 
 class BotView {
 
@@ -9,19 +10,18 @@ class BotView {
         this.bot = bot
         this.initialize();
     }
-
+    //Error Message Text Debug
     initialize() {
 
         this.bot.onText(/\/start/,(msg: Message) =>{
            this.starterMessage(msg);
         })
 
-        this.bot.on('message', async (msg: Message)=> {
-             this.bot.on('voice', async (msg: Message) =>{
-                let transcript: string = await BotController.handleSpeechToText(msg.voice, this.bot);
-                await this.replieToOlderMsg(msg, transcript, this.getMessageId(msg));
-            });
+        this.bot.on('voice', async (msg: Message)=>{
+            let transcript: string = await BotController.handleSpeechToText(msg.voice, this.bot);
+            await this.replieToOlderMsg(msg, transcript, this.getMessageId(msg));
         })
+
     }
 
     /**
@@ -35,9 +35,13 @@ class BotView {
     }
 
     public starterMessage(msg: Message):void {
+
        this.bot.sendMessage(msg.chat.id, `*Bem Vindo ao Coruja Voice* 🦉🎵 \n\nEu forneço um serviço de Speech\-To\-Text utilizando a API promovida e mantida pela _IBM Watsom_.\n\nCaso queira utilizar meus serviços, basta enviar-me um áudio em Português.\n\n🌌 Produzido e mantido por: Léo Bloise 🔭`, {
            parse_mode: 'Markdown'
        })
+
+       const photo = fs.readFileSync('src/app/view/startPhoto.jpg');
+       this.bot.sendPhoto(msg.chat.id,photo);
     }
 
     private getMessageId(msg: Message) {
