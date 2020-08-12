@@ -1,0 +1,4 @@
+node_modules
+.env
+src/configs/server.cert
+src/configs/server.key
