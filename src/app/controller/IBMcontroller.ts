@@ -43,7 +43,6 @@ class IBMcontroller {
             model : 'pt-BR_BroadbandModel',
         }
         //Para utilizar os tipos ele pede que use promises, mas o método pede callbacks e fica impossível de usar...
-        //Sério, mano, tem vezes que eu odeio programar QUE IDIOTAAAAAAA
         const res: any = await this.speechToText.recognize(options, (error, response) =>{
 
             if(response) {
